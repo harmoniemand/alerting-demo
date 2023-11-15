@@ -2,6 +2,8 @@ package notifications
 
 import (
 	"context"
+	"log/slog"
+	"strings"
 
 	"github.com/harmoniemand/alerting-demo/internal/configuration"
 )
@@ -32,7 +34,7 @@ func (m *NotificationManager) LevelAsNumber(level string) int {
 	levels := []string{"debug", "info", "warning", "error"}
 
 	for i, n := range levels {
-		if level == n {
+		if strings.EqualFold(level, n) {
 			return i
 		}
 	}
@@ -51,7 +53,11 @@ func (m *NotificationManager) IsLowerThan(level1 string, level2 string) bool {
  * If the notification is lower than the configured severity filter, the notification will not be sent!
  */
 func (m *NotificationManager) SendNotification(ctx context.Context, notification Notification) error {
-	if !m.IsLowerThan(notification.Type, m.Config.NotificationFilterSeverity) {
+	slog.Debug("Sending notification: ", "type", notification.Type, "name", notification.Name, "description", notification.Description)
+	slog.Debug("Notification severity: ", "severity", m.LevelAsNumber(notification.Type), "filter", m.LevelAsNumber(m.Config.NotificationFilterSeverity))
+
+	if m.IsLowerThan(notification.Type, m.Config.NotificationFilterSeverity) {
+		slog.Debug("Notification is lower than severity filter, not sending notification!")
 		return nil
 	}
 

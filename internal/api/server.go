@@ -57,7 +57,7 @@ func (s *Server) Start() error {
 	slog.Info("Starting server")
 
 	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+	r.Use(middleware.Logger) // ToDo: change logging format
 
 	r.Post("/", s.NotificationHandler.HandlePostNotification)
 

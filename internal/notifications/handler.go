@@ -43,6 +43,8 @@ func (h *NotificationHandler) HandlePostNotification(w http.ResponseWriter, r *h
 		}
 	}
 
+	slog.Debug("parsed notification from json body: ", "type", notification.Type, "name", notification.Name, "description", notification.Description)
+
 	err = h.Manager.SendNotification(r.Context(), notification)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

@@ -9,7 +9,11 @@ import (
 )
 
 func main() {
-	textHandler := slog.NewTextHandler(os.Stdout, nil)
+	opts := slog.HandlerOptions{
+		Level: configuration.GetSlogLevel(os.Getenv("LOG_LEVEL")),
+	}
+
+	textHandler := slog.NewTextHandler(os.Stdout, &opts)
 	logger := slog.New(textHandler)
 	slog.SetDefault(logger)
 

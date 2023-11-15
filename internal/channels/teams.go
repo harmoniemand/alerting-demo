@@ -22,7 +22,7 @@ func NewTeamsChannel(config configuration.Config) (TeamsChannel, error) {
  * This is a stub implementation!
  */
 func (c TeamsChannel) SendMessage(ctx context.Context, n notifications.Notification) error {
-	slog.InfoContext(ctx, "notification: ", "type", n.Type, "name", n.Name, "description", n.Description)
+	slog.InfoContext(ctx, "sending notification via teams channel: ", "type", n.Type, "name", n.Name, "description", n.Description)
 
 	// ToDO: implement sending notification to teams via webhooks or something similar
 	// https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using?tabs=cURL
